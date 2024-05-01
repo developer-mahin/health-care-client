@@ -1,14 +1,15 @@
-import {
-  Button,
-  Container,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import Image from "next/image";
+"use client";
+
 import assets from "@/assets";
+import { Button, Container, Grid, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
+import HCForm from "@/components/Form/HCForm";
+import HCInput from "@/components/Form/HCInput";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { convertToFormData } from "@/utils/convertToFormData";
+import { registerPatient } from "@/services/Action/registerPatient";
+import { toast } from "sonner";
 
 type TRegister = {
   column: number;
@@ -20,13 +21,13 @@ type TRegister = {
 const registerData: TRegister[] = [
   {
     column: 12,
-    name: "name",
+    name: "patient.name",
     label: "Name",
     type: "text",
   },
   {
     column: 6,
-    name: "email",
+    name: "patient.email",
     label: "Email",
     type: "email",
   },
@@ -38,19 +39,33 @@ const registerData: TRegister[] = [
   },
   {
     column: 6,
-    name: "contactNumber",
+    name: "patient.contactNumber",
     label: "Contact Number",
     type: "text",
   },
   {
     column: 6,
-    name: "address",
+    name: "patient.address",
     label: "Address",
     type: "text",
   },
 ];
 
 const RegisterPages = () => {
+  const handleRegister: SubmitHandler<FieldValues> = async (data) => {
+    const convertedData = convertToFormData(data);
+    try {
+      const res = await registerPatient(convertedData);
+      if (res.success) {
+        toast.success("Successfully Registered Your Account Please Login");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <Stack
       justifyContent="center"
@@ -73,16 +88,15 @@ const RegisterPages = () => {
             Patient Register
           </Typography>
         </Stack>
-        <form className="mt-6">
+        <HCForm onSubmit={handleRegister} className="mt-6">
           <Grid container spacing={3}>
             {registerData.map((data: TRegister, i: number) => (
               <Grid item key={i} md={data.column}>
-                <TextField
+                <HCInput
                   label={data.label}
                   type={data.type}
                   name={data.name}
                   variant="outlined"
-                  fullWidth
                   size="small"
                 />
               </Grid>
@@ -100,16 +114,15 @@ const RegisterPages = () => {
           <Typography
             sx={{
               textAlign: "center",
-              mt:1,
+              mt: 1,
             }}
-
           >
             Do you already have an account?{" "}
             <Link href="/login" className="text-[#1586FD] font-medium">
               Login
             </Link>
           </Typography>
-        </form>
+        </HCForm>
       </Container>
     </Stack>
   );
