@@ -69,9 +69,9 @@ const WhyUs = () => {
               display: "flex",
               gap: "15px",
               backgroundColor: "rgba(245, 245, 245, 1)",
-              padding: "20px",
+              padding: "40px 40px 30px 20px",
               alignItems: "center",
-              borderRadius: "10px 100px 10px 10px",
+              borderRadius: "15px 15px 100px 15px",
               marginBottom: "20px",
             }}
           >
@@ -89,8 +89,9 @@ const WhyUs = () => {
                 {servicesData[0].title}
               </Typography>
               <Typography
-                variant="body2"
-                color="primary.body1"
+                variant="body1"
+                color="secondary"
+
                 fontWeight={300}
               >
                 {servicesData[0].description}
@@ -103,9 +104,9 @@ const WhyUs = () => {
               display: "flex",
               gap: "15px",
               backgroundColor: "rgba(245, 245, 245, 1)",
-              padding: "20px",
+              padding: "40px 40px 30px 20px",
               alignItems: "center",
-              borderRadius: "10px 100px 10px 10px",
+              borderRadius: "15px 100px 15px 15px",
               marginBottom: "20px",
             }}
           >
@@ -123,8 +124,9 @@ const WhyUs = () => {
                 {servicesData[1].title}
               </Typography>
               <Typography
-                variant="body2"
-                color="primary.body1"
+                variant="body1"
+                color="secondary"
+
                 fontWeight={300}
               >
                 {servicesData[1].description}
@@ -137,9 +139,9 @@ const WhyUs = () => {
               display: "flex",
               gap: "15px",
               backgroundColor: "rgba(245, 245, 245, 1)",
-              padding: "20px",
+              padding: "40px 40px 30px 20px",
               alignItems: "center",
-              borderRadius: "10px 10px 100px 10px",
+              borderRadius: "15px 15px 100px 15px",
               marginBottom: "20px",
             }}
           >
@@ -157,8 +159,9 @@ const WhyUs = () => {
                 {servicesData[2].title}
               </Typography>
               <Typography
-                variant="body2"
-                color="primary.body1"
+                variant="body1"
+                color="secondary"
+
                 fontWeight={300}
               >
                 {servicesData[2].description}
@@ -171,9 +174,9 @@ const WhyUs = () => {
               display: "flex",
               gap: "15px",
               backgroundColor: "rgba(245, 245, 245, 1)",
-              padding: "20px",
+              padding: "40px 40px 30px 20px",
               alignItems: "center",
-              borderRadius: "10px 100px 10px 10px",
+              borderRadius: "15px 100px 15px 15px",
               marginBottom: "20px",
             }}
           >
@@ -191,8 +194,9 @@ const WhyUs = () => {
                 {servicesData[3].title}
               </Typography>
               <Typography
-                variant="body2"
-                color="primary.body1"
+                variant="body1"
+                color="secondary"
+
                 fontWeight={300}
               >
                 {servicesData[3].description}
