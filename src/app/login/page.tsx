@@ -1,14 +1,15 @@
+"use client";
+
 import assets from "@/assets";
-import {
-  Button,
-  Container,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import HCForm from "@/components/Form/HCForm";
+import HCInput from "@/components/Form/HCInput";
+import { userLogin } from "@/services/Action/userLogin";
+import { storeUserInfo } from "@/services/auth.service";
+import { Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 type TLoginData = {
   name: string;
@@ -30,6 +31,21 @@ const loginData: TLoginData[] = [
 ];
 
 const LoginPage = () => {
+  const handleLogin: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = await userLogin(data);
+      console.log(res);
+      if (res.success) {
+        storeUserInfo({ accessToken: res.data.accessToken });
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <Stack
       justifyContent="center"
@@ -52,16 +68,15 @@ const LoginPage = () => {
             Login PH HealthCare
           </Typography>
         </Stack>
-        <form className="mt-6">
+        <HCForm onSubmit={handleLogin} className="mt-6">
           <Grid container spacing={3}>
             {loginData.map((data: TLoginData, i: number) => (
               <Grid item key={i} md={6}>
-                <TextField
+                <HCInput
                   label={data.label}
                   type={data.type}
                   name={data.name}
                   variant="outlined"
-                  fullWidth
                   size="small"
                 />
               </Grid>
@@ -97,7 +112,7 @@ const LoginPage = () => {
               Create an account
             </Link>
           </Typography>
-        </form>
+        </HCForm>
       </Container>
     </Stack>
   );

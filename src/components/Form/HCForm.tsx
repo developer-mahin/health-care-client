@@ -42,7 +42,6 @@ const HCForm = ({
 
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
-    methods.reset();
   };
 
   return (

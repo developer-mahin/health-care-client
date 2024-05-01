@@ -10,6 +10,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { convertToFormData } from "@/utils/convertToFormData";
 import { registerPatient } from "@/services/Action/registerPatient";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type TRegister = {
   column: number;
@@ -52,12 +53,15 @@ const registerData: TRegister[] = [
 ];
 
 const RegisterPages = () => {
+  const router = useRouter();
+
   const handleRegister: SubmitHandler<FieldValues> = async (data) => {
     const convertedData = convertToFormData(data);
     try {
       const res = await registerPatient(convertedData);
       if (res.success) {
         toast.success("Successfully Registered Your Account Please Login");
+        router.push("/login");
       } else {
         toast.error(res.message);
       }
