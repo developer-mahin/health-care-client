@@ -1,9 +1,16 @@
+"use client";
+
 import { TNavItem, navItem } from "@/Data/navItem";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { Nav, NavLink } from "../UI/NavItem";
+import dynamic from "next/dynamic";
 
 const NavBar = () => {
+  const AuthButton = dynamic(() => import("../UI/AuthButton/AuthButton"), {
+    ssr: false,
+  });
+
   return (
     <Container>
       <Stack
@@ -28,9 +35,8 @@ const NavBar = () => {
             ))}
           </Nav>
         </Stack>
-        <Button component={Link} href="/login">
-          Login
-        </Button>
+
+        <AuthButton />
       </Stack>
     </Container>
   );

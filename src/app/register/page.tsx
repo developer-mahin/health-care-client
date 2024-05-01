@@ -11,6 +11,8 @@ import { convertToFormData } from "@/utils/convertToFormData";
 import { registerPatient } from "@/services/Action/registerPatient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { userLogin } from "@/services/Action/userLogin";
+import { storeUserInfo } from "@/services/auth.service";
 
 type TRegister = {
   column: number;
@@ -60,8 +62,15 @@ const RegisterPages = () => {
     try {
       const res = await registerPatient(convertedData);
       if (res.success) {
-        toast.success("Successfully Registered Your Account Please Login");
-        router.push("/login");
+        const result = await userLogin({
+          email: data.patient.email,
+          password: data.password,
+        });
+        if (result.success) {
+          storeUserInfo({ accessToken: result.data.accessToken });
+          toast.success("Account Created And Logged In Successfully");
+          router.push("/");
+        }
       } else {
         toast.error(res.message);
       }

@@ -8,6 +8,7 @@ import { storeUserInfo } from "@/services/auth.service";
 import { Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -31,13 +32,15 @@ const loginData: TLoginData[] = [
 ];
 
 const LoginPage = () => {
+  const router = useRouter();
+
   const handleLogin: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await userLogin(data);
-      console.log(res);
       if (res.success) {
         storeUserInfo({ accessToken: res.data.accessToken });
         toast.success(res.message);
+        router.push("/");
       } else {
         toast.error(res.message);
       }
