@@ -6,7 +6,7 @@ type TInputProps = {
   name: string;
   placeholder?: string;
   className?: any;
-  label?: string;
+  label: string;
   required?: boolean;
   accept?: string;
   multiple?: any;
@@ -28,10 +28,17 @@ const HCInput = ({
     <Controller
       name={name}
       control={control}
-      rules={{
-        required: required,
-      }}
-      render={({ field: { value, ...field } }) => (
+      // rules={{
+      //   required: required,
+      // }}
+      render={({
+        field: {
+          value,
+
+          ...field
+        },
+        fieldState: { error },
+      }) => (
         <TextField
           {...field}
           label={label}
@@ -40,6 +47,9 @@ const HCInput = ({
           fullWidth
           variant={variant}
           size={size}
+          placeholder={label}
+          error={!!error?.message}
+          helperText={error?.message}
           //   multiple={multiple}
           //   accept={accept}
         />

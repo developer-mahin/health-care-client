@@ -12,6 +12,7 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@hookform/resolvers": "^3.3.4",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
@@ -22,7 +23,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
     "sonner": "^1.4.41",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "zod": "^3.23.6"
   },
   "devDependencies": {
     "@types/node": "^20",

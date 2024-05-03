@@ -1,18 +1,23 @@
 "use client";
 
 import assets from "@/assets";
+import HCForm from "@/components/Form/HCForm";
+import HCInput from "@/components/Form/HCInput";
+import { registerPatient } from "@/services/Action/registerPatient";
+import { userLogin } from "@/services/Action/userLogin";
+import { storeUserInfo } from "@/services/auth.service";
+import { convertToFormData } from "@/utils/convertToFormData";
+import {
+  defaultValues,
+  registerValidationSchema,
+} from "@/validation/registration.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import HCForm from "@/components/Form/HCForm";
-import HCInput from "@/components/Form/HCInput";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { convertToFormData } from "@/utils/convertToFormData";
-import { registerPatient } from "@/services/Action/registerPatient";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { userLogin } from "@/services/Action/userLogin";
-import { storeUserInfo } from "@/services/auth.service";
 
 type TRegister = {
   column: number;
@@ -101,7 +106,12 @@ const RegisterPages = () => {
             Patient Register
           </Typography>
         </Stack>
-        <HCForm onSubmit={handleRegister} className="mt-6">
+        <HCForm
+          onSubmit={handleRegister}
+          className="mt-6"
+          resolver={zodResolver(registerValidationSchema)}
+          defaultValues={defaultValues}
+        >
           <Grid container spacing={3}>
             {registerData.map((data: TRegister, i: number) => (
               <Grid item key={i} md={data.column}>
@@ -111,6 +121,7 @@ const RegisterPages = () => {
                   name={data.name}
                   variant="outlined"
                   size="small"
+                  // required={false}
                 />
               </Grid>
             ))}

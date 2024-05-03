@@ -5,6 +5,11 @@ import HCForm from "@/components/Form/HCForm";
 import HCInput from "@/components/Form/HCInput";
 import { userLogin } from "@/services/Action/userLogin";
 import { storeUserInfo } from "@/services/auth.service";
+import {
+  loginDefaultValues,
+  loginValidationSchema,
+} from "@/validation/login.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -71,7 +76,12 @@ const LoginPage = () => {
             Login PH HealthCare
           </Typography>
         </Stack>
-        <HCForm onSubmit={handleLogin} className="mt-6">
+        <HCForm
+          resolver={zodResolver(loginValidationSchema)}
+          defaultValues={loginDefaultValues}
+          onSubmit={handleLogin}
+          className="mt-6"
+        >
           <Grid container spacing={3}>
             {loginData.map((data: TLoginData, i: number) => (
               <Grid item key={i} md={6}>
