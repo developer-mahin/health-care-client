@@ -17,13 +17,13 @@ import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
-type TLoginData = {
+export type TLoginData = {
   name: string;
   label: string;
   type: string;
 };
 
-const loginData: TLoginData[] = [
+export const loginData: TLoginData[] = [
   {
     name: "email",
     label: "Email",
@@ -45,7 +45,7 @@ const LoginPage = () => {
       if (res.success) {
         storeUserInfo({ accessToken: res.data.accessToken });
         toast.success(res.message);
-        router.push("/");
+        router.push("/dashboard");
       } else {
         toast.error(res.message);
       }
@@ -114,6 +114,7 @@ const LoginPage = () => {
           >
             Login
           </Button>
+
           <Typography
             sx={{
               textAlign: "center",

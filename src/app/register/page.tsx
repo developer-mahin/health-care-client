@@ -13,11 +13,23 @@ import {
 } from "@/validation/registration.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { Button, Container, Grid, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { TLoginData, loginData } from "../login/page";
+import {
+  loginDefaultValues,
+  loginValidationSchema,
+} from "@/validation/login.validation";
 
 type TRegister = {
   column: number;
@@ -61,8 +73,9 @@ const registerData: TRegister[] = [
 
 const RegisterPages = () => {
   const router = useRouter();
+  const { register, handleSubmit } = useForm();
 
-  const handleRegister: SubmitHandler<FieldValues> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const convertedData = convertToFormData(data);
     try {
       const res = await registerPatient(convertedData);
@@ -74,7 +87,7 @@ const RegisterPages = () => {
         if (result.success) {
           storeUserInfo({ accessToken: result.data.accessToken });
           toast.success("Account Created And Logged In Successfully");
-          router.push("/");
+          router.push("/dashboard");
         }
       } else {
         toast.error(res.message);
@@ -106,11 +119,11 @@ const RegisterPages = () => {
             Patient Register
           </Typography>
         </Stack>
-        <HCForm
-          onSubmit={handleRegister}
-          className="mt-6"
+        {/* <HCForm
           resolver={zodResolver(registerValidationSchema)}
           defaultValues={defaultValues}
+          onSubmit={handleRegister}
+          className="mt-6"
         >
           <Grid container spacing={3}>
             {registerData.map((data: TRegister, i: number) => (
@@ -121,7 +134,6 @@ const RegisterPages = () => {
                   name={data.name}
                   variant="outlined"
                   size="small"
-                  // required={false}
                 />
               </Grid>
             ))}
@@ -146,7 +158,45 @@ const RegisterPages = () => {
               Login
             </Link>
           </Typography>
-        </HCForm>
+        </HCForm> */}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
+          <Grid container spacing={3}>
+            {registerData.map((data: TRegister, i: number) => (
+              <Grid item key={i} md={data.column}>
+                <TextField
+                  label={data.label}
+                  type={data.type}
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  {...register(data.name)}
+                  required
+                />
+              </Grid>
+            ))}
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            sx={{
+              mt: 3,
+            }}
+          >
+            Register
+          </Button>
+          <Typography
+            sx={{
+              textAlign: "center",
+              mt: 1,
+            }}
+          >
+            Do you already have an account?{" "}
+            <Link href="/login" className="text-[#1586FD] font-medium">
+              Login
+            </Link>
+          </Typography>
+        </form>
       </Container>
     </Stack>
   );

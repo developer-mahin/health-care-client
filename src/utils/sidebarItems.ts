@@ -63,7 +63,7 @@ export const sidebarItems = (role: TUserRole): IDrawerItem[] => {
       );
       break;
 
-    case USER_ROLE.DOCTOR:
+    case USER_ROLE.DOCTORS:
       menuItems.push(
         {
           title: "Dashboard",
