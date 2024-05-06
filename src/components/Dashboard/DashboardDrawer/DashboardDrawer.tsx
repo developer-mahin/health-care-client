@@ -7,10 +7,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import * as React from "react";
-import Sidebar from "./Sidebar";
 import DashboardAppBar from "./AppBar";
+import Sidebar from "./Sidebar";
 
 const drawerWidth = 240;
 
@@ -46,7 +45,7 @@ export default function DashboardDrawer({
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
           background: "#F4F7FE",
-          py: "5px",
+          py: "8px",
         }}
         elevation={1}
       >
