@@ -34,7 +34,6 @@ const HCInput = ({
       render={({
         field: {
           value,
-
           ...field
         },
         fieldState: { error },
