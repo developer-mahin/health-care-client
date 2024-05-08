@@ -5,7 +5,7 @@ import HCModal from "@/components/HCModal/HCModal";
 import { useCreateSpecialtiesMutation } from "@/redux/api/Features/specialties";
 import { convertToFormData } from "@/utils/convertToFormData";
 import { Box, Button, Grid } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -15,9 +15,11 @@ type TProps = {
 };
 
 const SpecialtiesModal = ({ open, setOpen }: TProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [createSpecialties] = useCreateSpecialtiesMutation();
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true);
     try {
       const convertData = convertToFormData(data);
       const res = await createSpecialties(convertData).unwrap();
@@ -25,6 +27,7 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
       if (res?.id) {
         toast.success("Successfully Created An Specialties");
         setOpen(false);
+        setLoading(false);
       }
     } catch (error: any) {
       console.error(error.message);
@@ -55,7 +58,7 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
               mt: 2,
             }}
           >
-            Create Specialties
+            {loading ? "Loading..." : "Create Specialties"}
           </Button>
         </HCForm>
       </HCModal>
