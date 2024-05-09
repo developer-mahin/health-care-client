@@ -8,11 +8,14 @@ import HCForm from "@/components/Form/HCForm";
 import HCInput from "@/components/Form/HCInput";
 import HCFullScreenModal from "@/components/HCModal/HCFullScreenModal";
 import HCSelect from "@/components/HCModal/HCSelect";
+import { useCreateDoctorMutation } from "@/redux/api/Features/doctor";
+import { convertToFormData } from "@/utils/convertToFormData";
 import { doctorValidationSchema } from "@/validation/doctor.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Grid } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -20,8 +23,22 @@ type TProps = {
 };
 
 const DoctorModal = ({ open, setOpen }: TProps) => {
-  const handleDoctorCreate: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const [createDoctor] = useCreateDoctorMutation();
+
+  const handleDoctorCreate: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      data.doctor.appointmentFee = Number(data.doctor.appointmentFee);
+      data.doctor.experience = Number(data.doctor.experience);
+      const values = convertToFormData(data);
+
+      const res = await createDoctor(values).unwrap();
+      if (res?.id) {
+        toast.success("Successfully Doctor Created");
+        setOpen(false);
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
 
   return (

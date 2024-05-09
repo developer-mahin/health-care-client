@@ -40,8 +40,6 @@ const HCInput = ({
           placeholder={label}
           error={!!error?.message}
           helperText={error?.message}
-          //   multiple={multiple}
-          //   accept={accept}
         />
       )}
     />

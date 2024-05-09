@@ -12,10 +12,12 @@ const DoctorSchema = z
       .string()
       .min(5, "Registration number must be at least 5 characters"),
     gender: z.string().min(1, "Gender must be specified"),
-    experience: z.number().positive("Experience must be a positive number"),
+    experience: z
+      .string()
+      .min(1, "experience must be at least 1 characters"),
     appointmentFee: z
-      .number()
-      .positive("Appointment fee must be a positive number"),
+      .string()
+      .min(1, "appointmentFee must be at least 1 characters"),
     qualification: z
       .string()
       .min(2, "Qualification must be at least 2 characters"),
@@ -23,7 +25,6 @@ const DoctorSchema = z
       .string()
       .min(5, "Current working place must be at least 5 characters"),
     designation: z.string().min(2, "Designation must be at least 2 characters"),
-    profilePhoto: z.string(), // Assuming this is a URL to the profile photo
   })
   .catchall(z.string().optional());
 

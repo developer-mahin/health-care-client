@@ -26,7 +26,7 @@ export const doctorInputData: TDoctorInputs[] = [
   {
     name: "doctor.contactNumber",
     label: "Contact Number",
-    type: "number",
+    type: "text",
   },
   {
     name: "doctor.address",
@@ -36,7 +36,7 @@ export const doctorInputData: TDoctorInputs[] = [
   {
     name: "doctor.registrationNumber",
     label: "Registration Number",
-    type: "number",
+    type: "text",
   },
   {
     name: "doctor.experience",
