@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 type TInputProps = {
-  type: string;
+  type?: string;
   name: string;
   placeholder?: string;
   className?: any;
@@ -10,8 +10,8 @@ type TInputProps = {
   required?: boolean;
   accept?: string;
   multiple?: any;
-  variant: "outlined" | "filled" | "standard";
-  size: "small" | "medium";
+  variant?: "outlined" | "filled" | "standard";
+  size?: "small" | "medium";
 };
 
 const HCInput = ({
@@ -28,24 +28,15 @@ const HCInput = ({
     <Controller
       name={name}
       control={control}
-      // rules={{
-      //   required: required,
-      // }}
-      render={({
-        field: {
-          value,
-          ...field
-        },
-        fieldState: { error },
-      }) => (
+      render={({ field: { value, ...field }, fieldState: { error } }) => (
         <TextField
           {...field}
           label={label}
-          type={type}
+          type={type || "text"}
           value={value}
           fullWidth
-          variant={variant}
-          size={size}
+          variant={variant || "outlined"}
+          size={size || "small"}
           placeholder={label}
           error={!!error?.message}
           helperText={error?.message}

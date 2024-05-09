@@ -85,13 +85,7 @@ const LoginPage = () => {
           <Grid container spacing={3}>
             {loginData.map((data: TLoginData, i: number) => (
               <Grid item key={i} md={6}>
-                <HCInput
-                  label={data.label}
-                  type={data.type}
-                  name={data.name}
-                  variant="outlined"
-                  size="small"
-                />
+                <HCInput label={data.label} type={data.type} name={data.name} />
               </Grid>
             ))}
           </Grid>
