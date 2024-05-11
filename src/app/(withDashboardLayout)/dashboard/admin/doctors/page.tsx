@@ -3,16 +3,36 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import DoctorModal from "./components/DoctorModal";
-import { useGetAllDoctorsQuery } from "@/redux/api/Features/doctor";
+import {
+  useDeleteDoctorMutation,
+  useGetAllDoctorsQuery,
+} from "@/redux/api/Features/doctor";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
 import EditIcon from "@mui/icons-material/Edit";
 import Spinner from "@/components/Shared/Spinner";
+import { toast } from "sonner";
+import DeleteDoctorModal from "./components/DeleteModal";
+import { useDebounced } from "@/redux/hook";
 
 const DoctorsPage = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const { data, isLoading } = useGetAllDoctorsQuery({});
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [doctorId, setDoctorId] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const query: Record<string, any> = {};
+  const debounced = useDebounced({
+    searchTerm,
+    delay: 1000,
+  });
+  if (!!debounced) {
+    query["searchTerm"] = searchTerm;
+  }
+
+  const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
+  const [deleteDoctor] = useDeleteDoctorMutation();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,14 +41,12 @@ const DoctorsPage = () => {
   const doctors = data?.doctors;
   const meta = data?.meta;
 
-  const handleDelete = async (id: string) => {
-    // console.log(id);
+  const handleDelete = async () => {
     try {
-      // const res = await deleteDoctor(id).unwrap();
-      // console.log(res);
-      // if (res?.id) {
-      //   toast.success("Doctor deleted successfully!!!");
-      // }
+      const res = await deleteDoctor(doctorId).unwrap();
+      if (res?.id) {
+        toast.success("Doctor deleted successfully!!!");
+      }
     } catch (err: any) {
       console.error(err.message);
     }
@@ -50,7 +68,10 @@ const DoctorsPage = () => {
         return (
           <Box>
             <IconButton
-              onClick={() => handleDelete(row.id)}
+              onClick={() => {
+                setDoctorId(row.id);
+                setDeleteModalOpen(true);
+              }}
               aria-label="delete"
             >
               <DeleteIcon sx={{ color: "red" }} />
@@ -60,6 +81,11 @@ const DoctorsPage = () => {
                 <EditIcon />
               </IconButton>
             </Link>
+            <DeleteDoctorModal
+              open={deleteModalOpen}
+              setOpen={setDeleteModalOpen}
+              handleDelete={handleDelete}
+            />
           </Box>
         );
       },
@@ -70,14 +96,15 @@ const DoctorsPage = () => {
     <Box mt={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Button onClick={handleClickOpen}>Create A New Doctor</Button>
-        <DoctorModal open={open} setOpen={setOpen} />
         <TextField
           size="small"
           placeholder="Search"
           variant="outlined"
           label="Search"
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Stack>
+      <DoctorModal open={open} setOpen={setOpen} />
       <>
         {isLoading ? (
           <Spinner />
