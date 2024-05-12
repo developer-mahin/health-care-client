@@ -7,7 +7,8 @@ export const userLogin = async (payload: any) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
-      cache: "no-store",
+      // cache: "no-store",
+      credentials: "include",
     }
   );
 

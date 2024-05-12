@@ -1,7 +1,9 @@
+import { useGetSingleUserQuery } from "@/redux/api/Features/userApi";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Avatar } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -10,11 +12,21 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { removeFromLocalStorage } from "@/utils/local-storage";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import Spinner from "@/components/Shared/Spinner";
 
 export default function DashboardAppBar() {
+  const { data, isLoading } = useGetSingleUserQuery({});
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
+
+  const router = useRouter();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -36,6 +48,17 @@ export default function DashboardAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    removeFromLocalStorage("accessToken");
+    handleMenuClose();
+    router.push("/login");
+    toast.success("User Logged successfully");
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -53,8 +76,26 @@ export default function DashboardAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton aria-label="show 4 new mails">
+          <PersonOutlineIcon
+            sx={{
+              color: "primary.main",
+            }}
+          />
+        </IconButton>
+        <p> Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <IconButton aria-label="show 4 new mails">
+          <LogoutIcon
+            sx={{
+              color: "red",
+            }}
+          />
+        </IconButton>
+        <p>Log Out</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -115,25 +156,19 @@ export default function DashboardAppBar() {
       <Box position="static">
         <Toolbar>
           <Box>
-            <Typography>Hi, Mahin Khan</Typography>
-            <Typography color="primary.main">
+            <Typography>Hi,{data?.name}</Typography>
+            <Typography
+              color="primary.main"
+              variant="h5"
+              component="h4"
+              fontWeight={500}
+            >
               Welcome To PH Health Care
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              sx={{
-                color: "#000",
-              }}
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -156,7 +191,8 @@ export default function DashboardAppBar() {
                 color: "#000",
               }}
             >
-              <AccountCircle />
+              <Avatar alt={data?.name} src={data?.profilePhoto} />
+              <ArrowDropDownIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
