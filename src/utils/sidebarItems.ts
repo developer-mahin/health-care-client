@@ -8,6 +8,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import TryIcon from "@mui/icons-material/Try";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export const sidebarItems = (role: TUserRole): IDrawerItem[] => {
   const menuItems: IDrawerItem[] = [];
@@ -59,6 +60,11 @@ export const sidebarItems = (role: TUserRole): IDrawerItem[] => {
           title: "Reviews",
           path: `${role}/reviews`,
           icon: ReviewsIcon,
+        },
+        {
+          title: "Profile",
+          path: `${role}/profile`,
+          icon: AccountCircleIcon,
         }
       );
       break;
@@ -79,6 +85,11 @@ export const sidebarItems = (role: TUserRole): IDrawerItem[] => {
           title: "Appointments",
           path: `${role}/appointment`,
           icon: CalendarMonthIcon,
+        },
+        {
+          title: "Profile",
+          path: `${role}/profile`,
+          icon: AccountCircleIcon,
         }
       );
       break;
@@ -99,6 +110,11 @@ export const sidebarItems = (role: TUserRole): IDrawerItem[] => {
           title: "Payment History",
           path: `${role}/payment-history`,
           icon: DashboardIcon,
+        },
+        {
+          title: "Profile",
+          path: `${role}/profile`,
+          icon: AccountCircleIcon,
         }
       );
       break;

@@ -81,6 +81,64 @@ export const Gender = [
   },
 ];
 
+export const updateDoctorInputData: TDoctorInputs[] = [
+  {
+    name: "name",
+    label: "Name",
+    type: "text",
+  },
+  {
+    name: "email",
+    label: "Email",
+    type: "email",
+  },
+  {
+    name: "contactNumber",
+    label: "Contact Number",
+    type: "text",
+  },
+  {
+    name: "address",
+    label: "Address",
+    type: "text",
+  },
+  {
+    name: "registrationNumber",
+    label: "Registration Number",
+    type: "text",
+  },
+  {
+    name: "experience",
+    label: "Experience",
+    type: "number",
+  },
+  {
+    name: "gender",
+    label: "Gender",
+    gender: true,
+  },
+  {
+    name: "appointmentFee",
+    label: "AppointmentFee",
+    type: "number",
+  },
+  {
+    name: "qualification",
+    label: "Qualification",
+    type: "text",
+  },
+  {
+    name: "currentWorkingPlace",
+    label: "Current Working Place",
+    type: "text",
+  },
+  {
+    name: "designation",
+    label: "Designation",
+    type: "text",
+  },
+];
+
 export const defaultValues = {
   doctor: {
     email: "",

@@ -18,7 +18,6 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { removeFromLocalStorage } from "@/utils/local-storage";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import Spinner from "@/components/Shared/Spinner";
 
 export default function DashboardAppBar() {
   const { data, isLoading } = useGetSingleUserQuery({});
