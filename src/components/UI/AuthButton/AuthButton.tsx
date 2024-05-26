@@ -1,4 +1,5 @@
-import { isLoggedIn, removeUserInfo } from "@/services/auth.service";
+import { logoutUser } from "@/services/Action/logoutUser";
+import { isLoggedIn } from "@/services/auth.service";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,10 +10,10 @@ const AuthButton = () => {
   const router = useRouter();
 
   const handleLogOut = () => {
-    removeUserInfo();
+    logoutUser(router);
     toast.success("log out successful");
-    router.refresh();
   };
+
   return (
     <>
       {loginUser ? (

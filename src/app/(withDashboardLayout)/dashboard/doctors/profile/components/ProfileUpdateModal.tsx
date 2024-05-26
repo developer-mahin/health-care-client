@@ -16,7 +16,7 @@ import { Button, Grid } from "@mui/material";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import MultipleSelectChip from "./MultipleSelectChip";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/Features/specialties";
 
 type TProps = {
@@ -114,7 +114,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
         >
           <Grid container spacing={4} mt={2}>
             {updateDoctorInputData.map((item: TDoctorInputs, i: number) => (
-              <>
+              <React.Fragment key={i}>
                 {item.gender ? (
                   <Grid key={i} item md={4}>
                     <HCSelect
@@ -132,7 +132,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
                     />
                   </Grid>
                 )}
-              </>
+              </React.Fragment>
             ))}
 
             <Grid item md={4}>

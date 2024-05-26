@@ -40,7 +40,12 @@ instance.interceptors.response.use(
   async function (error) {
     const config = error.config;
 
-    if (error?.response?.status === 500 && !config.sent) {
+    if (
+      (error?.response?.status === 403 ||
+        error?.response?.status === 401 ||
+        error?.response?.status === 500) &&
+      !config.sent
+    ) {
       config.sent = true;
 
       const res = await getNewAccessToken();

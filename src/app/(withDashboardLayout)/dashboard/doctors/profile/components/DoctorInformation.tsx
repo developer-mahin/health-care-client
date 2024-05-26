@@ -11,8 +11,6 @@ const StyledInformationBox = styled(Box)(({ theme }) => ({
 }));
 
 const DoctorInformation = ({ data }: any) => {
-  console.log(data);
-
   return (
     <>
       <Typography variant="h5" color="primary.main" mb={2}>

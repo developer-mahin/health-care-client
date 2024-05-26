@@ -14,6 +14,8 @@ import AutoFileUploader from "@/components/Form/AutoFileUploder";
 import DoctorInformation from "./components/DoctorInformation";
 import Spinner from "@/components/Shared/Spinner";
 import ProfileUpdateModal from "./components/ProfileUpdateModal";
+import KeyIcon from "@mui/icons-material/Key";
+import Link from "next/link";
 
 const DoctorProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,10 +36,6 @@ const DoctorProfile = () => {
     }
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
   return (
     <>
       <ProfileUpdateModal
@@ -45,53 +43,68 @@ const DoctorProfile = () => {
         setOpen={setIsModalOpen}
         id={data?.id}
       />
-      <Container sx={{ mt: 4 }}>
-        <Grid container spacing={4}>
-          <Grid xs={12} md={4}>
-            <Box
-              sx={{
-                height: 300,
-                width: "100%",
-                overflow: "hidden",
-                borderRadius: 1,
-              }}
-            >
-              {data.profilePhoto && (
-                <Image
-                  height={300}
-                  width={400}
-                  src={data?.profilePhoto && data?.profilePhoto}
-                  alt="Choose User Photo"
-                />
-              )}
-            </Box>
-            <Box my={3}>
-              {updating ? (
-                <p>Uploading...</p>
-              ) : (
-                <AutoFileUploader
-                  name="file"
-                  label="Choose Your Profile Photo"
-                  icon={<CloudUploadIcon />}
-                  onFileUpload={fileUploadHandler}
-                  variant="text"
-                />
-              )}
-            </Box>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Container sx={{ mt: 4 }}>
+          <Grid container spacing={4}>
+            <Grid xs={12} md={4}>
+              <Box
+                sx={{
+                  height: 300,
+                  width: "100%",
+                  overflow: "hidden",
+                  borderRadius: 1,
+                }}
+              >
+                {data.profilePhoto && (
+                  <Image
+                    height={300}
+                    width={400}
+                    src={data?.profilePhoto && data?.profilePhoto}
+                    alt="Choose User Photo"
+                  />
+                )}
+              </Box>
+              <Box my={3}>
+                {updating ? (
+                  <p>Uploading...</p>
+                ) : (
+                  <AutoFileUploader
+                    name="file"
+                    label="Choose Your Profile Photo"
+                    icon={<CloudUploadIcon />}
+                    onFileUpload={fileUploadHandler}
+                    variant="text"
+                  />
+                )}
+              </Box>
 
-            <Button
-              fullWidth
-              endIcon={<ModeEditIcon />}
-              onClick={() => setIsModalOpen(true)}
-            >
-              Edit Profile
-            </Button>
+              <Button
+                fullWidth
+                endIcon={<ModeEditIcon />}
+                onClick={() => setIsModalOpen(true)}
+              >
+                Edit Profile
+              </Button>
+              <Button
+                fullWidth
+                endIcon={<KeyIcon />}
+                sx={{
+                  mt: 2,
+                }}
+                component={Link}
+                href="/change_password"
+              >
+                Change Password
+              </Button>
+            </Grid>
+            <Grid xs={12} md={8}>
+              <DoctorInformation data={data} />
+            </Grid>
           </Grid>
-          <Grid xs={12} md={8}>
-            <DoctorInformation data={data} />
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      )}
     </>
   );
 };
