@@ -21,7 +21,11 @@ export const navItem: TNavItem[] = [
     path: "diagnostics",
   },
   {
-    name: "NGOS",
-    path: "ngos",
+    name: "Doctors",
+    path: "doctors",
+  },
+  {
+    name: "Dashboard",
+    path: "dashboard",
   },
 ];

@@ -96,7 +96,7 @@ const LoginPage = () => {
               mt: 1,
             }}
           >
-            <Link href="/register">Forgot Password?</Link>
+            <Link href="/forgot-password">Forgot Password?</Link>
           </Typography>
 
           <Button

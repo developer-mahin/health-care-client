@@ -1,15 +1,20 @@
 "use client";
 
 import { TNavItem, navItem } from "@/Data/navItem";
-import { Box, Container, Stack, Typography } from "@mui/material";
+import useUserInfo from "@/hooks/useUserInfo";
+import { logoutUser } from "@/services/Action/logoutUser";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Nav, NavLink } from "../UI/NavItem";
-import dynamic from "next/dynamic";
 
 const NavBar = () => {
-  const AuthButton = dynamic(() => import("../UI/AuthButton/AuthButton"), {
-    ssr: false,
-  });
+  const userInfo = useUserInfo();
+  const router = useRouter();
+
+  const handleLogOut = () => {
+    logoutUser(router);
+  };
 
   return (
     <Container>
@@ -36,7 +41,15 @@ const NavBar = () => {
           </Nav>
         </Stack>
 
-        <AuthButton />
+        {userInfo?.id ? (
+          <Button color="error" onClick={handleLogOut} sx={{ boxShadow: 0 }}>
+            Logout
+          </Button>
+        ) : (
+          <Button component={Link} href="/login">
+            Login
+          </Button>
+        )}
       </Stack>
     </Container>
   );
